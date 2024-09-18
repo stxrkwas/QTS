@@ -47,7 +47,6 @@ public class ConexaoTest {
         assertNotNull(c, "A instância de conexão não deve ser nula");
         assertNotNull(conectado, "A conexão deve ser estabelecida");
     }
-
     /**
      * Test of desconecta method, of class Conexao.
      */
@@ -56,20 +55,47 @@ public class ConexaoTest {
         boolean desconectado = c.desconecta();
         assertTrue(desconectado, "A desconexão não foi realizada com successo");
     }
-
+    
     /**
      * Test of executaSQL method, of class Conexao.
      */
     @Test
     public void testExecutaSQL() {
-        String sql = "SELECT * FROM acesso";
+        String sql = "SELECT * FROM acesso WHERE Nome LIKE ''";
         ResultSet resultSet = c.executaSQL(sql);
-        assertNotNull(resultSet, "Oresultado da consulta SQL não deve ser nulo");
+        assertNotNull(resultSet, "O resultado da consulta SQL não deve ser nulo");
         try{
-        assertTrue(resultSet.next(),"O resultado deveria conter pelo menos uma linha");
-        }catch(SQLException e){
+            assertTrue(resultSet.next(),"O resultado deveria conter pelo menos uma linha");
+        }
+        catch(SQLException e){
         fail("Erro ao processar o ResultSet: "+ e.getMessage());
         }
     }
+   
+        // Teste em que ao ser executado, não encontra o usuário 'Tatiane'
+    @Test
+    public void testExecutaSQL2() {
+        String sql = "SELECT * FROM acesso WHERE Nome LIKE 'Tatiane'";
+        ResultSet resultSet = c.executaSQL(sql);
+        assertNotNull(resultSet, "O resultado da consulta SQL não deve ser nulo");
+        try{
+            assertTrue(resultSet.next(),"O resultado da consulta deveria encontrar o usuário 'Tatiane'");
+        }
+        catch(SQLException e){
+            fail("Erro ao processar o ResultSet: "+ e.getMessage());
+        }
+    }
     
+    @Test
+    public void testExecutaSQL3() {
+        String sql = "SELECT * FROM acesso WHERE Nome LIKE 'Maria'";
+        ResultSet resultSet = c.executaSQL(sql);
+        assertNotNull(resultSet, "O resultado da consulta SQL não deve ser nulo");
+        try{
+            assertTrue(resultSet.next(),"O resultado da consulta deveria encontrar o usuário 'Maria'");
+        }
+        catch(SQLException e){
+            fail("Erro ao processar o ResultSet: "+ e.getMessage());
+        }
+    }
 }

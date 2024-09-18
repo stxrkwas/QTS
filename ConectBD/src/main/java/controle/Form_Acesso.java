@@ -1,4 +1,4 @@
-/*
+ /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
@@ -31,7 +31,7 @@ public class Form_Acesso extends JFrame {
     JPasswordField senha;
     JLabel Titulo, Password, Name, subtitle;
     JTextField N_User;
-    JButton Login, /*close,*/ limpar;
+    JButton Login, limpar;
     private int TentAtual =3;
     
     public Form_Acesso(){
@@ -85,20 +85,26 @@ public class Form_Acesso extends JFrame {
         Titulo.setBounds(160,30,250,45);
         subtitle.setBounds(120,75,300,35);
         Name.setBounds(50,150,300,25);
-        Password.setBounds(50,230,100,25);
+        Password.setBounds(50,240,100,25);
     
         N_User.setBounds(50,180,300,40);
-        senha.setBounds(50,260,300,45);
+        senha.setBounds(50,270,300,45);
         Login.setBounds(90,350,100,35);
         limpar.setBounds(220,350,90,35);
-        //close.setBounds(160,410,90,20);
     
         // Definindo a fonte dos componentes
         Titulo.setFont(new Font("Gadugi", Font.BOLD,30));
         subtitle.setFont(new Font("Gadugi", Font.PLAIN,18));
         Name.setFont(new Font("Gadugi", Font.BOLD,18));
         Password.setFont(new Font("Gadugi", Font.BOLD,18));
-    
+        N_User.setFont(new Font("Gadugi", Font.PLAIN,12));
+        senha.setFont(new Font("Gadugi", Font.PLAIN,12));
+        
+        // Definindo a cor dos botões
+        Login.setBackground(new Color(224, 188, 211));
+        limpar.setBackground(new Color(224, 188, 211));
+        
+        // Ações executadas ao clicar no botão Login
         Login.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
 
@@ -107,7 +113,7 @@ public class Form_Acesso extends JFrame {
                 con_cliente.executaSQL(pesuisa);
 
                 if(con_cliente.resultset.first()){
-                    JOptionPane.showMessageDialog(null,"Acesso concebido :))\n Seja bem vindo!!","Que coisa boaaaaaaaaaaaaaaaaaaaaaaa",JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null,"Seja bem-vindo(a)!","Acesso concedido.",JOptionPane.INFORMATION_MESSAGE);
                     controle acesso = new controle();
                     acesso.setVisible(true);
                     dispose();
@@ -115,44 +121,36 @@ public class Form_Acesso extends JFrame {
                 
                 else{
                     
-                    JOptionPane.showMessageDialog(null, "Usuário não localizado!!\n \nReveja se as informações foram colocadas corretamente, ou *feche o programa*!!!!",
-                    "Catapimbas Meo",JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Usuário não localizado!\nVerifique as informações digitadas nos campos ou feche o programa.",
+                    "Erro!",JOptionPane.INFORMATION_MESSAGE);
                     TentAtual--;   
                         
                     if(TentAtual==0){
-                        JOptionPane.showMessageDialog(null, "Última Tentativa!! \nReveja se as informações foram colocadas corretamente, ou *feche o programa*!!!!",
-                        "Catapimbas Meo",JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Verifique as informações digitadas nos campos ou feche o programa.",
+                        "Última tentativa!",JOptionPane.INFORMATION_MESSAGE);
                     }
                     
                     N_User.setText("");
                     senha.setText("");
                     N_User.requestFocus();
+                    
+                    if(TentAtual<0){
+                        JOptionPane.showMessageDialog(null, "Limite de tentativas excedido.",
+                        "Programa encerrado.",JOptionPane.INFORMATION_MESSAGE);
+                        System.exit(0);
+                    }
 
-                }
-                
-                if(TentAtual<0){
-                    JOptionPane.showMessageDialog(null, "Programa fechado\n\nMotivo-->Limites de tentaivas excedido!!!!",
-                    "Saída pela Direita",JOptionPane.INFORMATION_MESSAGE);
-                    System.exit(0);
                 }
                 
             }
             
             catch(SQLException erro){
-                JOptionPane.showMessageDialog(null,"Não foi possivel acessar ao seu cadastro\n nos registros do banco","E lá vaaaamos nós!",JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null,"Não foi possivel acessar ao seu cadastro\n nos registros do banco","Cadastro inválido",JOptionPane.INFORMATION_MESSAGE);
                 con_cliente.desconecta();
             }}
         });
-    
-        /*close.addActionListener(new ActionListener(){
-           public void actionPerformed(ActionEvent e){
-               int frchar = JOptionPane.showConfirmDialog(rootPane,"Deseja realmente fechar o programa??","Será que vem ai??",JOptionPane.YES_NO_CANCEL_OPTION);
-               if(frchar == 0){
-               System.exit(0);
-               }
-           }
-        });*/
      
+        // Ações executadas ao clicar no botão limpar
         limpar.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                N_User.setText(null);
@@ -161,21 +159,26 @@ public class Form_Acesso extends JFrame {
             }
         });
      
+        // Definindo a cor de fundo da tela
         tela.setBackground(new Color(255, 255, 240));
 
+        // Adicionando os componentes na tela
         tela.add(Titulo);
         tela.add(Name);
         tela.add(Password);
         tela.add(N_User);
         tela.add(senha);
         tela.add(Login);
-        //tela.add(close);
         tela.add(limpar);
         tela.add(subtitle);
         
-
-        setSize(415,500);
+        // Definindo o tamanho da tela
+        setSize(415,470);
+        
+        // Definindo a tela como visível
         setVisible(true);
+        
+        //
         setLocationRelativeTo(null);
     }
 }
